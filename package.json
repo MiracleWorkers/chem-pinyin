@@ -1,0 +1,22 @@
+{
+  "name": "chem-pinyin",
+  "version": "0.1.0",
+  "description": "Pinyin",
+  "main": "dist/pinyin.js",
+  "scripts": {
+    "build": "npx rollup --config rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiracleWorkers/chem-pinyin.git"
+  },
+  "keywords": [
+    "pinyin"
+  ],
+  "author": "atomjaylee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MiracleWorkers/chem-pinyin/issues"
+  },
+  "homepage": "https://github.com/MiracleWorkers/chem-pinyin#readme"
+}
