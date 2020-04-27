@@ -1,5 +1,126 @@
 'use strict';
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelper(o) {
+  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {
+      var i = 0;
+
+      var F = function () {};
+
+      return {
+        s: F,
+        n: function () {
+          if (i >= o.length) return {
+            done: true
+          };
+          return {
+            done: false,
+            value: o[i++]
+          };
+        },
+        e: function (e) {
+          throw e;
+        },
+        f: F
+      };
+    }
+
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  var it,
+      normalCompletion = true,
+      didErr = false,
+      err;
+  return {
+    s: function () {
+      it = o[Symbol.iterator]();
+    },
+    n: function () {
+      var step = it.next();
+      normalCompletion = step.done;
+      return step;
+    },
+    e: function (e) {
+      didErr = true;
+      err = e;
+    },
+    f: function () {
+      try {
+        if (!normalCompletion && it.return != null) it.return();
+      } finally {
+        if (didErr) throw err;
+      }
+    }
+  };
+}
+
 var dictionary1 = {
   踉踉跄跄: 'liàng liàng qiàng qiàng',
   以古为鉴: 'yǐ gǔ wéi jiàn',
@@ -42025,14 +42146,7 @@ var dictionary6 = {
   皎: 'jiǎo'
 };
 
-var dictionary = {
-  ...dictionary1,
-  ...dictionary2,
-  ...dictionary3,
-  ...dictionary4,
-  ...dictionary5,
-  ...dictionary6
-};
+var dictionary = _objectSpread2({}, dictionary1, {}, dictionary2, {}, dictionary3, {}, dictionary4, {}, dictionary5, {}, dictionary6);
 
 var tones = {
   üē: ['ue', 1],
@@ -42065,60 +42179,72 @@ var tones = {
   ǜ: ['v', 4]
 };
 
-const SPACE = ' ';
-
-const removeTone = str => {
-  Object.keys(tones).forEach(key => {
+var SPACE = ' ';
+var removeTone = function removeTone(str) {
+  Object.keys(tones).forEach(function (key) {
     if (~str.indexOf(key)) {
       str = str.replace(new RegExp(key, 'g'), tones[key][0]);
     }
   });
-  return str
+  return str;
 };
-
-const convertToneToNumber = (str, toneToNumberOnly) => {
-  const result = str.split(SPACE);
-  result.forEach((val, index) => {
-    let thisKey = 0;
-    Object.keys(tones).forEach(key => {
+var convertToneToNumber = function convertToneToNumber(str, toneToNumberOnly) {
+  var result = str.split(SPACE);
+  result.forEach(function (val, index) {
+    var thisKey = 0;
+    Object.keys(tones).forEach(function (key) {
       if (~val.indexOf(key)) {
         thisKey = key;
         result[index] = val.replace(new RegExp(key, 'g'), tones[key][0]);
       }
     });
-    const tone = thisKey && tones[thisKey][1];
+    var tone = thisKey && tones[thisKey][1];
+
     if (toneToNumberOnly) {
       result[index] = tone;
     } else {
       result[index] += tone;
     }
   });
-
-  return result.join(SPACE)
+  return result.join(SPACE);
 };
 
-const SPACE$1 = ' ';
-const EMPTY = '';
-const REGEXP = /[\u4E00-\u9FA5]/g;
+var SPACE$1 = ' ';
+var EMPTY = '';
+var REGEXP = /[\u4E00-\u9FA5]/g;
+var keys = Object.keys(dictionary);
+var index = (function (str) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var result = str.match(REGEXP);
 
-const keys = Object.keys(dictionary);
-
-var index = (str, options = {}) => {
-  let result = str.match(REGEXP);
   if (!result) {
-    return str
+    return str;
   }
 
   result = result.join(EMPTY);
 
-  for (const key of keys) {
-    if (~result.indexOf(key)) {
-      result = result.replace(new RegExp(key, 'g'), `${SPACE$1}${options.firstCharacter ? dictionary[key].split(SPACE$1).map(t => t.substring(0, 1)).join(SPACE$1) : dictionary[key]}`);
-      REGEXP.lastIndex = 0;
-      if (!REGEXP.test(result)) {
-        break
+  var _iterator = _createForOfIteratorHelper(keys),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var key = _step.value;
+
+      if (~result.indexOf(key)) {
+        result = result.replace(new RegExp(key, 'g'), "".concat(SPACE$1).concat(options.firstCharacter ? dictionary[key].split(SPACE$1).map(function (t) {
+          return t.substring(0, 1);
+        }).join(SPACE$1) : dictionary[key]));
+        REGEXP.lastIndex = 0;
+
+        if (!REGEXP.test(result)) {
+          break;
+        }
       }
     }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
   }
 
   result = result.trim();
@@ -42131,18 +42257,20 @@ var index = (str, options = {}) => {
 
   if (options.keepRest && options.removeSpace) {
     result = result.split(SPACE$1);
-    result = str.replace(REGEXP, () => result.shift());
+    result = str.replace(REGEXP, function () {
+      return result.shift();
+    });
   } else if (options.keepRest && !options.removeSpace) {
     result = result.split(SPACE$1);
-    result = str.replace(REGEXP, (__match, offset) => {
+    result = str.replace(REGEXP, function (__match, offset) {
       REGEXP.lastIndex = 0;
-      return `${REGEXP.test(str[offset - 1]) ? SPACE$1 : EMPTY}${result.shift()}`
+      return "".concat(REGEXP.test(str[offset - 1]) ? SPACE$1 : EMPTY).concat(result.shift());
     });
   } else if (!options.keepRest && options.removeSpace) {
     result = result.replace(new RegExp(SPACE$1, 'g'), EMPTY);
   }
 
-  return result
-};
+  return result;
+});
 
 module.exports = index;
